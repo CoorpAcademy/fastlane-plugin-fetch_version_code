@@ -1,6 +1,11 @@
+## MacOS
+.DS_Store
+
+## Gems
+
 *.gem
 Gemfile.lock
-gems
+vendor
 .bundle
 
 ## Documentation cache and generated files:
