@@ -1,6 +1,7 @@
 # fetch_version_code plugin
 
 [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-fetch_version_code)
+[![Build Status](https://travis-ci.com/CoorpAcademy/fastlane-plugin-fetch_version_code.svg?branch=master)](https://travis-ci.com/CoorpAcademy/fastlane-plugin-fetch_version_code)
 
 ## Getting Started
 
