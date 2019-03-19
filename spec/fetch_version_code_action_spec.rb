@@ -1,9 +1,9 @@
 describe Fastlane::Actions::FetchVersionCodeAction do
   describe '#run' do
     it 'should crash without appropriate config' do
-      expect {
+      expect do
         Fastlane::Actions::FetchVersionCodeAction.run({})
-      }.to raise_error 'Need either :host and :path or :endpoint arguments'
+      end.to raise_error('Need either :host and :path or :endpoint arguments')
     end
     it 'should run action' do
       allow(Fastlane::Helper::FetchVersionCodeHelper).to receive(:fetch_version_code).and_return('42')
@@ -39,7 +39,7 @@ describe Fastlane::Actions::FetchVersionCodeAction do
   describe '#available_options' do
     it 'should return available_options' do
       result = Fastlane::Actions::FetchVersionCodeAction.available_options
-      expect(result.map {|opt| opt.key}).to eq %i(endpoint host path method secret_header secret_value)
+      expect(result.map(&:key)).to eq(%i(endpoint host path method secret_header secret_value))
     end
   end
 

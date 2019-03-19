@@ -13,7 +13,7 @@ describe Fastlane::Helper::FetchVersionCodeHelper do
       expect(result).to eq('https://domain.tld/version/ios')
     end
     it 'should raise exception otherwise' do
-      expect { Fastlane::Helper::FetchVersionCodeHelper.get_api_url({}) }.to raise_error 'No enough params to get api_url'
+      expect { Fastlane::Helper::FetchVersionCodeHelper.get_api_url({}) }.to raise_error('No enough params to get api_url')
     end
   end
 
@@ -25,9 +25,9 @@ describe Fastlane::Helper::FetchVersionCodeHelper do
 
       expect(Fastlane::UI).to receive(:message).with('Calling API: https://domain.tld/version/android')
       expect(Fastlane::UI).to receive(:error).with('Some error occureds [status:404 Not Found]: not found')
-      expect { 
-        Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(host: 'domain.tld', path: '/version/android') 
-      }.to raise_error('not found')
+      expect do
+        Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(host: 'domain.tld', path: '/version/android')
+      end.to raise_error('not found')
     end
 
     it 'should fetch version with a get without secret' do

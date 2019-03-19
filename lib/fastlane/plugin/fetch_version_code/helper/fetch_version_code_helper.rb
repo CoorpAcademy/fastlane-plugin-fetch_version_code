@@ -11,7 +11,7 @@ module Fastlane
         UI.message("Calling API: #{url}")
         method = params[:method] || :get
 
-        headers = params[:secret_header] ? {params[:secret_header] => params[:secret_value]} : {}
+        headers = params[:secret_header] ? { params[:secret_header] => params[:secret_value] } : {}
         res = HTTP.headers(headers).send(method, url)
 
         if res.status != 200
@@ -27,9 +27,9 @@ module Fastlane
           return params[:endpoint] if params[:endpoint].start_with?("http:", "https:")
           return "https://#{params[:endpoint]}"
         elsif params[:host] && params[:path]
-           return "https://#{params[:host]}#{params[:path]}"
+          return "https://#{params[:host]}#{params[:path]}"
         end
-        raise ArgumentError.new('No enough params to get api_url')
+        raise ArgumentError, 'No enough params to get api_url'
       end
     end
   end
