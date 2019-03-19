@@ -1,11 +1,11 @@
 describe Fastlane::Helper::FetchVersionCodeHelper do
   describe '#get_api_url' do
-    it 'should create URL from version_url' do
-      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(version_url: 'domain.tld/endpoint')
+    it 'should create URL from endpoint' do
+      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(endpoint: 'domain.tld/endpoint')
       expect(result).to eq('https://domain.tld/endpoint')
     end
-    it 'should create URL from version_url with protocol' do
-      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(version_url: 'https://the-versio.io')
+    it 'should create URL from endpoint with protocol' do
+      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(endpoint: 'https://the-versio.io')
       expect(result).to eq('https://the-versio.io')
     end
     it 'should create URL from host and path' do

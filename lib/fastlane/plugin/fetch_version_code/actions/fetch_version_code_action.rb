@@ -29,15 +29,12 @@ module Fastlane
 
       def self.available_options
         [
-          FastlaneCore::ConfigItem.new(
-            key: :version_api_host,
-            env_name: 'VERSION_API_HOST',
-            description: 'API Token for FetchVersionCodeAction',
-            is_string: true,
-            default_value: 'api.coorpacademy.com'
-          ),
-          FastlaneCore::ConfigItem.new(key: :platform, is_string: false, description: 'The platform to fetch version for'),
-          FastlaneCore::ConfigItem.new(key: :secret, env_name: 'VERSION_API_SECRET')
+          FastlaneCore::ConfigItem.new(key: :endpoint, description: 'Version Api endpoint', is_string: true, default_value: ''),
+          FastlaneCore::ConfigItem.new(key: :host, description: 'The host hosting the version API'),
+          FastlaneCore::ConfigItem.new(key: :path, description: 'The path of the version API'),
+          FastlaneCore::ConfigItem.new(key: :method, description: 'The method of the endpoint', is_string: false, default_value: :get),
+          FastlaneCore::ConfigItem.new(key: :secret_header, default_value: '')
+          FastlaneCore::ConfigItem.new(key: :secret_value, default_value: '')
         ]
       end
 

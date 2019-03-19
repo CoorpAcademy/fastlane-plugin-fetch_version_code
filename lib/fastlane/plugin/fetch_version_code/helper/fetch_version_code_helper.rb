@@ -22,9 +22,9 @@ module Fastlane
       end
 
       def self.get_api_url(params)
-        if params[:version_url]
-          return params[:version_url] if params[:version_url].start_with?("http:", "https:")
-          return "https://#{params[:version_url]}"
+        if params[:endpoint]
+          return params[:endpoint] if params[:endpoint].start_with?("http:", "https:")
+          return "https://#{params[:endpoint]}"
         elsif params[:host] && params[:path]
            return "https://#{params[:host]}#{params[:path]}"
         end
