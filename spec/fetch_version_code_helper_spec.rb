@@ -1,31 +1,54 @@
 describe Fastlane::Helper::FetchVersionCodeHelper do
   describe '#get_api_url' do
-    it 'should create URL' do
-      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(version_api_host: 'domain.tld', platform: 'ios')
-      expect(result).to eq('https://domain.tld/build/api/v1/versions/ios/increment')
+    it 'should create URL from version_url' do
+      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(version_url: 'domain.tld/endpoint')
+      expect(result).to eq('https://domain.tld/endpoint')
+    end
+    it 'should create URL from version_url with protocol' do
+      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(version_url: 'https://the-versio.io')
+      expect(result).to eq('https://the-versio.io')
+    end
+    it 'should create URL from host and path' do
+      result = Fastlane::Helper::FetchVersionCodeHelper.get_api_url(host: 'domain.tld', path: '/version/ios')
+      expect(result).to eq('https://domain.tld/version/ios')
+    end
+    it 'should raise exception otherwise' do
+      expect { Fastlane::Helper::FetchVersionCodeHelper.get_api_url() }.to raise_error ArgumentError
     end
   end
 
   describe '#fetch_version_code' do
-    it 'should raise error' do
-      allow(Fastlane::Helper::FetchVersionCodeHelper).to receive(:get_api_url).and_return('https://domain.tld')
-      stub_request(:post, 'https://domain.tld')
+    it 'should raise error for non existing key' do
+      allow(Fastlane::Helper::FetchVersionCodeHelper).to receive(:get_api_url).and_return('https://domain.tld/version/android')
+      stub_request(:get, 'https://domain.tld/version/android')
         .with(headers: { api_secret: 'foobarbaz' })
-        .to_return(status: 404, body: '42')
+        .to_return(status: 404, body: 'not found')
 
-      expect(Fastlane::UI).to receive(:message).with('Calling API: https://domain.tld')
-      expect(Fastlane::UI).to receive(:error).with('Some error occureds [status:404 Not Found]: 42')
-      expect { Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(version_api_host: 'domain.tld', platform: 'ios', secret: 'foobarbaz') }.to raise_error('42')
+      expect(Fastlane::UI).to receive(:message).with('Calling API: https://domain.tld/version/android')
+      expect(Fastlane::UI).to receive(:error).with('Some error occureds [status:404 Not Found]: not found')
+      expect { 
+        Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(host: 'domain.tld', path: '/version/android', secret: 'foobarbaz') 
+      }.to raise_error('not found')
     end
 
-    it 'should fetch version' do
+    it 'should fetch version with a get' do
+      allow(Fastlane::Helper::FetchVersionCodeHelper).to receive(:get_api_url).and_return('https://domain.tld')
+      stub_request(:get, 'https://domain.tld')
+        .with(headers: { api_secret: 'foobarbaz' })
+        .to_return(status: 200, body: '42')
+
+      expect(Fastlane::UI).to receive(:message).with('Calling API: https://domain.tld')
+      result = Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(version_api_host: 'domain.tld', platform: 'ios', secret: 'foobarbaz')
+      expect(result).to eq('42')
+    end
+    it 'should fetch version with a post' do
       allow(Fastlane::Helper::FetchVersionCodeHelper).to receive(:get_api_url).and_return('https://domain.tld')
       stub_request(:post, 'https://domain.tld')
         .with(headers: { api_secret: 'foobarbaz' })
         .to_return(status: 200, body: '42')
 
       expect(Fastlane::UI).to receive(:message).with('Calling API: https://domain.tld')
-      result = Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(version_api_host: 'domain.tld', platform: 'ios', secret: 'foobarbaz')
+      result = Fastlane::Helper::FetchVersionCodeHelper.fetch_version_code(version_api_host: 'domain.tld', platform: 'ios', secret: 'foobarbaz', method: :post)
       expect(result).to eq('42')
     end
   end

@@ -9,8 +9,9 @@ module Fastlane
       def self.fetch_version_code(params)
         url = self.get_api_url(params)
         UI.message("Calling API: #{url}")
+        method = params[:method] || :get
 
-        res = HTTP.headers(api_secret: params[:secret]).post(url)
+        res = HTTP.headers(api_secret: params[:secret]).send(method, url)
 
         if res.status != 200
           UI.error("Some error occureds [status:#{res.status}]: #{res.body}")
@@ -21,7 +22,13 @@ module Fastlane
       end
 
       def self.get_api_url(params)
-        return "https://#{params[:version_api_host]}/build/api/v1/versions/#{params[:platform]}/increment"
+        if params[:version_url]
+          return params[:version_url] if params[:version_url].start_with?("http:", "https:")
+          return "https://#{params[:version_url]}"
+        elsif params[:host] && params[:path]
+           return "https://#{params[:host]}#{params[:path]}"
+        end
+        raise ArgumentError("No enough params to get api_url")
       end
     end
   end
