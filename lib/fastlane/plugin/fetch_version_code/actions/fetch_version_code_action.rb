@@ -7,7 +7,7 @@ module Fastlane
   module Actions
     class FetchVersionCodeAction < Action
       def self.run(params)
-        unless params.include?(:host) && params.include?(:path) || params.include?(:endpoint)
+        unless params[:host] && params[:path] || params[:endpoint]
           UI.user_error!('Need either :host and :path or :endpoint arguments')
         end
         UI.message("About to fetch a version code")
