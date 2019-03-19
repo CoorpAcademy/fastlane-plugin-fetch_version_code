@@ -1,11 +1,16 @@
 describe Fastlane::Actions::FetchVersionCodeAction do
   describe '#run' do
+    it 'should crash without appropriate config' do
+      expect do
+        Fastlane::Actions::FetchVersionCodeAction.run({})
+      end.to raise_error('Need either :host and :path or :endpoint arguments')
+    end
     it 'should run action' do
       allow(Fastlane::Helper::FetchVersionCodeHelper).to receive(:fetch_version_code).and_return('42')
 
-      expect(Fastlane::UI).to receive(:message).with('About to fetch a version code for: ios')
-      expect(Fastlane::UI).to receive(:success).with('Got version code: 42')
-      result = Fastlane::Actions::FetchVersionCodeAction.run(version_api_host: 'domain.tld', platform: 'ios', secret: 'foobarbaz')
+      expect(Fastlane::UI).to receive(:message).with('About to fetch a version code')
+      expect(Fastlane::UI).to receive(:success).with("Got 'version code': 42")
+      result = Fastlane::Actions::FetchVersionCodeAction.run(host: 'domain.tld', path: 'version/ios')
       expect(result).to eq('42')
     end
   end
@@ -34,18 +39,7 @@ describe Fastlane::Actions::FetchVersionCodeAction do
   describe '#available_options' do
     it 'should return available_options' do
       result = Fastlane::Actions::FetchVersionCodeAction.available_options
-      expected = [
-        FastlaneCore::ConfigItem.new(
-          key: :version_api_host,
-          env_name: 'VERSION_API_HOST',
-          description: 'API Token for FetchVersionCodeAction',
-          is_string: true,
-          default_value: 'api.coorpacademy.com'
-        ),
-        FastlaneCore::ConfigItem.new(key: :platform, is_string: false, description: 'The platform to fetch version for'),
-        FastlaneCore::ConfigItem.new(key: :secret, env_name: 'VERSION_API_SECRET')
-      ]
-      expect(result.to_json).to eq(expected.to_json)
+      expect(result.map(&:key)).to eq(%i(endpoint host path method secret_header secret_value))
     end
   end
 
