@@ -1,6 +1,6 @@
 # fetch_version_code Fastlane plugin
 
-
+[![Gem](https://img.shields.io/gem/v/fastlane-plugin-fetch_version_code)](https://rubygems.org/gems/fastlane-plugin-fetch_version_code)
 [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-fetch_version_code)
 [![Build Status](https://travis-ci.com/CoorpAcademy/fastlane-plugin-fetch_version_code.svg?branch=master)](https://travis-ci.com/CoorpAcademy/fastlane-plugin-fetch_version_code)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
