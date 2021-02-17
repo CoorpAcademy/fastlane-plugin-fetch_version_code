@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   # Don't add a dependency to fastlane or fastlane_re
   # since this would cause a circular dependency
 
+  spec.required_ruby_version = '~> 2.4'
   spec.add_dependency('http', '~> 4.4.1')
 
   spec.add_development_dependency('pry')
