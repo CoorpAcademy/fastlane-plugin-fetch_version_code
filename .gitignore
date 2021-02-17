@@ -17,3 +17,8 @@ fastlane/README.md
 fastlane/report.xml
 coverage
 test-results
+
+tmp
+private
+.vscode
+.idea
