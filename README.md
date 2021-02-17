@@ -1,10 +1,11 @@
-# fetch_version_code plugin
+# fetch_version_code Fastlane plugin
 
 
 [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-fetch_version_code)
 [![Build Status](https://travis-ci.com/CoorpAcademy/fastlane-plugin-fetch_version_code.svg?branch=master)](https://travis-ci.com/CoorpAcademy/fastlane-plugin-fetch_version_code)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+> _Fastlane plugin_ to help you **fetch version number/code** from some API/HTTP Endpoint
 ## Getting Started
 
 This project is a [_fastlane_](https://github.com/fastlane/fastlane) plugin. To get started with `fastlane-plugin-fetch_version_code`, add it to your project by running:
@@ -13,17 +14,21 @@ This project is a [_fastlane_](https://github.com/fastlane/fastlane) plugin. To 
 fastlane add_plugin fetch_version_code
 ```
 
-## About fetch_version_code
-
-Fetch (and increment) version code for given platform
-
-**Note to author:** Add a more detailed description about this plugin here. If your plugin contains multiple actions, make sure to mention them here.
-
 ## Example
 
 Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
 
-**Note to author:** Please set up a sample project to make it easy for users to explore what your plugin does. Provide everything that is necessary to try out the plugin in this project (including a sample Xcode/Android project if necessary)
+Here is how you could use the plugin to fetch version number from some API endpoint.
+
+```ruby
+version_code = fetch_version_code(
+    endpoint: "api.whatever.org/api/build/next-build-number",
+    method: :post,
+    secret_header: 'Api-Secret',
+    secret_value: ENV['VERSION_API_SECRET']
+)
+```
+
 
 ## Run tests for this plugin
 
